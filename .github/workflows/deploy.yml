@@ -1,41 +1,32 @@
-name: Deploy to GitHub Pages
+name: Fix nav links on main
 
 on:
   push:
-    branches: ["main", "copilot/fix-interactive-buttons-issue"]
+    branches: ["copilot/fix-interactive-buttons-issue"]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  build:
+  apply-fix-to-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Apply nav anchor fix
+        run: |
+          sed -i 's|href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848\.us1\.manus\.computer/#|href="#|g' index.html
+
+      - name: Commit and push to main (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet && echo "Nothing to fix (already applied)" || \
+            (git add index.html && \
+             git commit -m "Fix nav buttons: replace dev-server URLs with relative anchors" && \
+             git push origin main)
