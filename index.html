@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/ -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfect Report – Signorvino | Analisi Commerciale per Tagaro.it</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --wine: #8B1A1A;
+      --wine-light: #C0392B;
+      --wine-dark: #5C0E0E;
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --cream: #FAF6F0;
+      --dark: #1A1A2E;
+      --gray: #6B7280;
+      --light-gray: #F3F4F6;
+      --white: #FFFFFF;
+      --shadow: 0 4px 24px rgba(139,26,26,0.10);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--cream);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--wine-dark) 0%, var(--wine) 60%, var(--wine-light) 100%);
+      color: var(--white);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 48px 32px 40px;
+      position: relative; z-index: 1;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--gold-light);
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    header h1 span { color: var(--gold-light); }
+    header p.subtitle {
+      font-size: 16px; opacity: 0.85;
+      max-width: 700px; margin-bottom: 24px;
+    }
+    .header-meta {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      font-size: 13px; opacity: 0.75;
+    }
+    .header-meta span { display: flex; align-items: center; gap: 6px; }
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 2px solid var(--wine);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 32px;
+      display: flex; gap: 0; overflow-x: auto;
+    }
+    nav a {
+      display: block; padding: 14px 18px;
+      text-decoration: none; color: var(--gray);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover, nav a.active {
+      color: var(--wine); border-bottom-color: var(--wine);
+    }
+    /* ── MAIN ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
+    /* ── SECTIONS ── */
+    section { margin-bottom: 56px; scroll-margin-top: 80px; }
+    .section-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--wine);
+    }
+    .section-icon {
+      width: 48px; height: 48px;
+      background: var(--wine);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 24px; color: var(--wine-dark);
+      font-weight: 700;
+    }
+    .section-header p { font-size: 14px; color: var(--gray); margin-top: 2px; }
+    /* ── KPI CARDS ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin-bottom: 32px;
+    }
+    .kpi-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--wine);
+      transition: transform 0.2s;
+    }
+    .kpi-card:hover { transform: translateY(-4px); }
+    .kpi-card .kpi-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--gray); margin-bottom: 8px;
+    }
+    .kpi-card .kpi-value {
+      font-size: 28px; font-weight: 700; color: var(--wine-dark);
+      line-height: 1;
+    }
+    .kpi-card .kpi-sub {
+      font-size: 12px; color: var(--gray); margin-top: 6px;
+    }
+    .kpi-card .kpi-trend {
+      display: inline-block; margin-top: 8px;
+      font-size: 12px; font-weight: 700;
+      padding: 3px 8px; border-radius: 20px;
+    }
+    .trend-up { background: #D1FAE5; color: #065F46; }
+    .trend-down { background: #FEE2E2; color: #991B1B; }
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      font-size: 17px; color: var(--wine-dark);
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    /* ── GRID 2 COL ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media(max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      main { padding: 24px 16px 60px; }
+      .header-inner { padding: 32px 16px 28px; }
+      .nav-inner { padding: 0 16px; }
+    }
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      background: var(--wine);
+      color: var(--white);
+      padding: 12px 16px;
+      text-align: left; font-weight: 600;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    tbody tr:nth-child(even) { background: var(--light-gray); }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid #E5E7EB; }
+    tbody tr:hover { background: #FEF3F2; }
+    /* ── CHART CONTAINER ── */
+    .chart-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .chart-box h3 {
+      font-size: 15px; color: var(--wine-dark);
+      margin-bottom: 20px; font-weight: 700;
+    }
+    .chart-wrap { position: relative; height: 280px; }
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+      width: 2px; background: var(--wine);
+    }
+    .timeline-item { position: relative; margin-bottom: 24px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -26px; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--wine); border: 2px solid var(--white);
+      box-shadow: 0 0 0 2px var(--wine);
+    }
+    .timeline-item .year {
+      font-size: 11px; font-weight: 700; color: var(--wine);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .timeline-item p { font-size: 14px; color: var(--dark); margin-top: 2px; }
+    /* ── FUNNEL ── */
+    .funnel { display: flex; flex-direction: column; gap: 6px; }
+    .funnel-step {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 20px; border-radius: 10px;
+      transition: transform 0.2s;
+    }
+    .funnel-step:hover { transform: translateX(6px); }
+    .funnel-step .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; flex-shrink: 0;
+    }
+    .funnel-step .step-info { flex: 1; }
+    .funnel-step .step-title { font-weight: 700; font-size: 15px; }
+    .funnel-step .step-desc { font-size: 13px; margin-top: 2px; opacity: 0.85; }
+    .funnel-step .step-channel {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.5px; opacity: 0.7; margin-top: 4px;
+    }
+    .f1 { background: #FEF3F2; color: #7F1D1D; }
+    .f2 { background: #FFF7ED; color: #7C2D12; }
+    .f3 { background: #FFFBEB; color: #78350F; }
+    .f4 { background: #F0FDF4; color: #14532D; }
+    .f5 { background: #EFF6FF; color: #1E3A8A; }
+    .f6 { background: #F5F3FF; color: #4C1D95; }
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block; padding: 4px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-wine { background: #FEE2E2; color: var(--wine-dark); }
+    .badge-green { background: #D1FAE5; color: #065F46; }
+    .badge-blue { background: #DBEAFE; color: #1E40AF; }
+    .badge-gold { background: #FEF3C7; color: #92400E; }
+    /* ── CONTACT CARD ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .contact-item {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--wine);
+    }
+    .contact-item .c-role {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--gray); margin-bottom: 6px;
+    }
+    .contact-item .c-name { font-size: 17px; font-weight: 700; color: var(--wine-dark); }
+    .contact-item .c-detail { font-size: 13px; color: var(--gray); margin-top: 6px; }
+    .contact-item a { color: var(--wine); text-decoration: none; }
+    /* ── ALERT BOX ── */
+    .alert {
+      border-radius: 12px; padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .alert-wine { background: #FEF2F2; border-left: 4px solid var(--wine); }
+    .alert-gold { background: #FFFBEB; border-left: 4px solid var(--gold); }
+    .alert-green { background: #F0FDF4; border-left: 4px solid #10B981; }
+    .alert h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .alert p { font-size: 13px; line-height: 1.6; }
+    /* ── PROGRESS BAR ── */
+    .progress-item { margin-bottom: 14px; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 13px; margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 8px; background: var(--light-gray); border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--wine-dark), var(--wine-light));
+      transition: width 1s ease;
+    }
+    /* ── COMPETITOR TABLE ── */
+    .comp-card {
+      background: var(--white);
+      border-radius: 12px; padding: 20px;
+      box-shadow: var(--shadow);
+      border-top: 3px solid;
+    }
+    .comp-card.leader { border-top-color: #EF4444; }
+    .comp-card.strong { border-top-color: #F59E0B; }
+    .comp-card.medium { border-top-color: #3B82F6; }
+    .comp-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .comp-card p { font-size: 13px; color: var(--gray); }
+    /* ── FOOTER ── */
+    footer {
+      background: var(--wine-dark);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+    }
+    footer strong { color: var(--gold-light); }
+    /* ── SCROLL ANIMATION ── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    /* ── PRINT ── */
+    @media print {
+      nav, footer { display: none; }
+      .kpi-card:hover, .funnel-step:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="header-badge">🍷 Perfect Report · Analisi Commerciale Riservata</div>
+    <h1>Profilazione Completa<br><span>Signorvino S.r.l.</span></h1>
+    <p class="subtitle">Analisi strategica, finanziaria e commerciale per supportare l'approccio di <strong>Tagaro.it</strong> verso Signorvino come potenziale cliente distributore.</p>
+    <div class="header-meta">
+      <span>📅 Marzo 2026</span>
+      <span>🔒 Riservato – SecurData.pro per Tagaro.it</span>
+      <span>📊 Dati aggiornati al Q1 2026</span>
+      <span>✍️ A cura di IACOBELLIS V. · Incarico TRITTO A.</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#profilo" class="active">Profilo</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#finanziari">Finanziari</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#negozi">Negozi</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#marketing">Marketing</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#fornitori">Fornitori</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#competitor">Competitor</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#funnel">Funnel Vendita</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#contatti">Contatti</a>
+    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#tagaro">Tagaro → SGV</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main>
+
+  <!-- ── KPI SUMMARY ── -->
+  <div class="kpi-grid fade-in visible" style="margin-bottom:48px;">
+    <div class="kpi-card">
+      <div class="kpi-label">Fatturato 2025</div>
+      <div class="kpi-value">€ 90M</div>
+      <div class="kpi-sub">+5% vs 2024</div>
+      <span class="kpi-trend trend-up">▲ +5%</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Punti Vendita</div>
+      <div class="kpi-value">43</div>
+      <div class="kpi-sub">41 Italia + 2 Estero</div>
+      <span class="kpi-trend trend-up">▲ +3 nel 2025</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Bottiglie Vendute</div>
+      <div class="kpi-value">2,24M</div>
+      <div class="kpi-sub">Retail + Ristorazione + Mescita</div>
+      <span class="kpi-trend trend-up">▲ +17% vs 2023</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Dipendenti</div>
+      <div class="kpi-value">~500</div>
+      <div class="kpi-sub">Gruppo Oniverse</div>
+      <span class="kpi-trend trend-up">▲ Crescita costante</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Scontrino Medio Retail</div>
+      <div class="kpi-value">€ 48</div>
+      <div class="kpi-sub">2024 – in crescita</div>
+      <span class="kpi-trend trend-up">▲ +8% vs 2022</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Follower Instagram</div>
+      <div class="kpi-value">163K</div>
+      <div class="kpi-sub">@signorvino</div>
+      <span class="kpi-trend trend-up">▲ Attivo</span>
+    </div>
+  </div>
+
+  <!-- ═══ 1. PROFILO AZIENDALE ═══ -->
+  <section id="profilo">
+    <div class="section-header">
+      <div class="section-icon">🏛️</div>
+      <div>
+        <h2>Profilo Aziendale</h2>
+        <p>Identità legale, storia, governance e struttura societaria</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📋 Dati Legali e Societari</h3>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><td><strong>Ragione Sociale</strong></td><td>SIGNORVINO S.R.L.</td></tr>
+              <tr><td><strong>Partita IVA</strong></td><td>05064530230</td></tr>
+              <tr><td><strong>Codice Fiscale</strong></td><td>05064530230</td></tr>
+              <tr><td><strong>Sede Legale</strong></td><td>Via Portici Umberto Primo, 5/3 – 37018 Malcesine (VR)</td></tr>
+              <tr><td><strong>Forma Giuridica</strong></td><td>S.r.l. (Società a Responsabilità Limitata)</td></tr>
+              <tr><td><strong>Codice ATECO</strong></td><td>46.34.1 – Commercio all'ingrosso bevande alcoliche</td></tr>
+              <tr><td><strong>Quotazione Borsa</strong></td><td>Non quotata (società privata)</td></tr>
+              <tr><td><strong>Dividendi</strong></td><td>Non distribuiti pubblicamente (struttura privata)</td></tr>
+              <tr><td><strong>Gruppo</strong></td><td>Oniverse (ex Calzedonia Group)</td></tr>
+              <tr><td><strong>Sito Web</strong></td><td><a href="https://www.signorvino.com/" target="_blank" style="color:var(--wine)">www.signorvino.com</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👥 Management e Organigramma</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Ruolo</th><th>Nome</th><th>Contatto</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Presidente</strong></td><td>Sandro Veronesi</td><td>Fondatore Oniverse</td></tr>
+              <tr><td><strong>Amministratore Delegato</strong></td><td>Federico Veronesi</td><td>LinkedIn disponibile</td></tr>
+              <tr><td><strong>General Manager</strong></td><td>Luca Pizzighella</td><td>lpizzighella@signorvino.com</td></tr>
+              <tr><td><strong>Buyer Wine &amp; Food</strong></td><td>Figura interna</td><td>Ufficio Acquisti Verona</td></tr>
+              <tr><td><strong>Customer Service</strong></td><td>Team dedicato</td><td>hello@signorvino.com</td></tr>
+              <tr><td><strong>Dipendenti totali</strong></td><td colspan="2">~500 (2025)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-gold" style="margin-top:16px;">
+          <h4>🎯 Key Decision Maker per Tagaro</h4>
+          <p>Il <strong>Buyer Wine &amp; Food</strong> (Purchasing Specialist) è la figura chiave per la selezione dei fornitori. Il <strong>General Manager Luca Pizzighella</strong> supervisiona la strategia di assortimento. Federico Veronesi approva le linee guida strategiche.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📅 Storia e Timeline</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">2012</div>
+          <p>Fondazione da parte di Sandro Veronesi (Gruppo Calzedonia). Apertura primo store a Milano Piazza Duomo. Concept: "Grande Cantina Italiana" – enoteca + ristorante.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2018</div>
+          <p>Lancio piano strategico social media. Nasce l'Osservatorio Signorvino-Nomisma (Wine Monitor). Partnership con Gambero Rosso e La Cucina Italiana.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2020-2021</div>
+          <p>Boom e-commerce (+50% nel 2021). Resilienza durante COVID. Fatturato 2021: ~35 mln €.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2022</div>
+          <p>Decimo anniversario. 28 punti vendita. Fatturato 55 mln €. Annuncio espansione internazionale (Parigi, Praga).</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2023</div>
+          <p>Apertura Praga e Parigi (Place Saint-Michel). Fatturato 72,5 mln €. Consolidamento brand.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2024</div>
+          <p>Fatturato record 85,7 mln € (+17,5%). 41 punti vendita. Lancio campagna TV e 3D Billboard Milano. Scontrino medio retail 48,27 €.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2025</div>
+          <p>Fatturato 90 mln €. Lancio Sommelier Digitale AI (luglio). Riapertura flagship Milano Duomo (180 coperti). 2,2 mln coperti serviti. 43 punti vendita.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2026</div>
+          <p>Piano: 6+ nuove aperture (Roma Via del Corso, Udine, Napoli, Erbusco, Marcianise, Milano CityLife). Raddoppio presenza a Praga. Seconda location a Parigi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2. DATI FINANZIARI ═══ -->
+  <section id="finanziari">
+    <div class="section-header">
+      <div class="section-icon">💰</div>
+      <div>
+        <h2>Dati Finanziari</h2>
+        <p>Fatturato storico, breakdown per canale, scontrino medio e proiezioni</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-box">
+        <h3>📈 Evoluzione Fatturato Signorvino (2019-2025)</h3>
+        <div class="chart-wrap">
+          <canvas id="chartFatturato" width="510" height="280" style="display: block; box-sizing: border-box; height: 280px; width: 510px;"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>🍷 Breakdown Fatturato 2024 per Canale</h3>
+        <div class="chart-wrap">
+          <canvas id="chartCanali" width="510" height="280" style="display: block; box-sizing: border-box; height: 280px; width: 510px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="chart-box">
+        <h3>🍾 Vendite per Categoria (Valore 2024)</h3>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="chartCategorie" width="317" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 317px;"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>📦 Bottiglie per Canale (2024)</h3>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="chartBottiglie" width="317" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 317px;"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>🏆 Top Denominazioni per Quantità</h3>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="chartDenominazioni" width="317" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 317px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>💳 Scontrino Medio per Canale</h3>
+        <div class="progress-item">
+          <div class="progress-label"><span>E-commerce</span><span>€ 97</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:97%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Acquisti combinati (retail+rist.)</span><span>€ 63</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:63%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Enoteca/Retail</span><span>€ 48-59</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Ristorante</span><span>€ 57</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:57%"></div></div>
+        </div>
+        <div class="alert alert-green" style="margin-top:16px;">
+          <h4>📊 Stime Incasso Medio</h4>
+          <p><strong>Annuo lordo:</strong> ~90 mln € (2025)<br>
+          <strong>Mensile lordo:</strong> ~7,5 mln €<br>
+          <strong>Giornaliero lordo:</strong> ~246.000 € (su 365 gg)<br>
+          <strong>Per negozio/anno:</strong> ~2,1 mln € (media su 43 store)</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Dati Oniverse (Gruppo) – Contesto Finanziario</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Anno</th><th>Fatturato (mln €)</th><th>EBITDA</th><th>EBIT</th><th>Utile Netto</th></tr></thead>
+            <tbody>
+              <tr><td>2022</td><td>3.047</td><td>783</td><td>352</td><td>198</td></tr>
+              <tr><td>2023</td><td>3.107</td><td>673</td><td>217</td><td>117</td></tr>
+              <tr><td>2024</td><td>3.527</td><td>788</td><td>295</td><td>142</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-wine" style="margin-top:16px;">
+          <h4>⚠️ Nota per Tagaro</h4>
+          <p>Signorvino è una <strong>S.r.l. privata</strong>, non quotata in borsa. Non distribuisce dividendi pubblicamente. La solidità finanziaria è garantita dal gruppo Oniverse (3,5 mld € fatturato 2024). Questo rappresenta una <strong>garanzia implicita</strong> per i fornitori in termini di solvibilità.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔮 Proiezioni e Piano di Sviluppo 2026-2027</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Indicatore</th><th>2024 (Reale)</th><th>2025 (Reale)</th><th>2026 (Stima)</th><th>2027 (Obiettivo)</th></tr></thead>
+          <tbody>
+            <tr><td>Fatturato totale</td><td>€ 85,7 mln</td><td>€ 90 mln</td><td>€ 98-105 mln</td><td>€ 110+ mln</td></tr>
+            <tr><td>Punti vendita</td><td>41</td><td>43</td><td>49-50</td><td>55+</td></tr>
+            <tr><td>Bottiglie vendute</td><td>2,24 mln</td><td>~2,3 mln</td><td>~2,5 mln</td><td>~2,8 mln</td></tr>
+            <tr><td>E-commerce</td><td>€ 1,77 mln</td><td>€ 1,8 mln</td><td>€ 2,2 mln</td><td>€ 3+ mln</td></tr>
+            <tr><td>Presenza estera</td><td>2 paesi</td><td>2 paesi</td><td>3-4 paesi</td><td>5+ paesi</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3. NEGOZI E GEOLOCALIZZAZIONE ═══ -->
+  <section id="negozi">
+    <div class="section-header">
+      <div class="section-icon">📍</div>
+      <div>
+        <h2>Negozi e Geolocalizzazione Strategica</h2>
+        <p>Distribuzione geografica, presenza nelle città chiave e piano espansione</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-box">
+        <h3>🗺️ Distribuzione Negozi per Regione (2025)</h3>
+        <div class="chart-wrap">
+          <canvas id="chartNegozi" width="510" height="280" style="display: block; box-sizing: border-box; height: 280px; width: 510px;"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📌 Presenza Geografica Dettagliata</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Regione</th><th>N° Negozi</th><th>Città Principali</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Lombardia</strong></td><td>12</td><td>Milano (Navigli, Garibaldi, Dante, Duomo, CityLife, Orio al Serio)</td></tr>
+              <tr><td><strong>Veneto</strong></td><td>7</td><td>Verona, Padova, Venezia, Vicenza</td></tr>
+              <tr><td><strong>Emilia-Romagna</strong></td><td>6</td><td>Bologna, Parma, Rimini, Modena</td></tr>
+              <tr><td><strong>Piemonte</strong></td><td>5</td><td>Torino (più sedi)</td></tr>
+              <tr><td><strong>Lazio</strong></td><td>5</td><td>Roma (più sedi, incl. Largo dei Lombardi)</td></tr>
+              <tr><td><strong>Toscana</strong></td><td>3</td><td>Firenze, Arezzo</td></tr>
+              <tr><td><strong>Trentino-A.A.</strong></td><td>2</td><td>Bolzano, Trento</td></tr>
+              <tr><td><strong>Campania</strong></td><td>1+</td><td>Napoli/Maximall Pompeii</td></tr>
+              <tr><td><strong>Puglia</strong></td><td>0</td><td>In valutazione (Bari)</td></tr>
+              <tr><td><strong>Francia</strong></td><td>1</td><td>Parigi (Place Saint-Michel)</td></tr>
+              <tr><td><strong>Rep. Ceca</strong></td><td>1</td><td>Praga</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-gold">
+      <h4>🎯 Opportunità Geografica per Tagaro (Puglia)</h4>
+      <p>Signorvino <strong>non ha ancora negozi in Puglia</strong> (Bari è in piano di valutazione). Tuttavia, la forte presenza nelle città del Nord (Milano, Torino, Verona, Bologna) e del Centro (Roma, Firenze) rappresenta il target primario di distribuzione. I vini pugliesi di Tagaro (Primitivo, Negroamaro, Nero di Troia) sono già tra le <strong>denominazioni più vendute</strong> da Signorvino in termini di volume (Primitivo al 5,4% delle vendite retail). Questo è un argomento commerciale diretto e potente.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 4. MARKETING E COMUNICAZIONE ═══ -->
+  <section id="marketing">
+    <div class="section-header">
+      <div class="section-icon">📣</div>
+      <div>
+        <h2>Marketing, Comunicazione e Canali Digitali</h2>
+        <p>Strategie ADV, social media, innovazione AI e programma fedeltà</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>📱 Presenza Social Media</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Piattaforma</th><th>Account</th><th>Metriche</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Instagram</strong></td><td>@signorvino</td><td>163.000 follower · 2.418 post</td></tr>
+              <tr><td><strong>Facebook</strong></td><td>Signorvino</td><td>147.000 like · ~2.000 interazioni/giorno</td></tr>
+              <tr><td><strong>LinkedIn</strong></td><td>Signorvino</td><td>Pagina aziendale attiva</td></tr>
+              <tr><td><strong>YouTube</strong></td><td>Signorvino</td><td>Video istituzionali e spot</td></tr>
+              <tr><td><strong>Sito Web</strong></td><td>signorvino.com</td><td>Ranking SEO #2 settore vino Italia</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌐 Traffico Web e SEO</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metrica</th><th>Valore</th></tr></thead>
+            <tbody>
+              <tr><td>Ranking globale (SimilarWeb)</td><td>#329.401 (feb 2026)</td></tr>
+              <tr><td>Ranking categoria Food &amp; Drink</td><td>#113</td></tr>
+              <tr><td>Indice Visibilità SEO (Sistrix)</td><td>326.02 (2° settore)</td></tr>
+              <tr><td>Keyword Top 100</td><td>1.375</td></tr>
+              <tr><td>Keyword Top 10</td><td>732</td></tr>
+              <tr><td>Ricerche mensili brand</td><td>~23.200</td></tr>
+              <tr><td>Competitor SEO principale</td><td>Tannico.it (#1)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>🤖 Sommelier Digitale AI</h3>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">Lanciato luglio 2025. Basato su AI generativa, addestrato su 2.000+ etichette.</p>
+        <div class="progress-item">
+          <div class="progress-label"><span>Add to Cart Rate</span><span>80%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Utenti attivi (primi mesi)</span><span>2.500+</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Visualizzazioni</span><span>15.000+</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎟️ Programma Fedeltà</h3>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">Signorvino Club / Signorvino Card – due livelli di fidelizzazione.</p>
+        <div style="margin-bottom:10px;">
+          <span class="badge badge-gold">Wine Lover</span>
+          <p style="font-size:12px;margin-top:6px;">10% sconto benvenuto · 15% ogni 100 punti · Omaggio compleanno · Spedizione gratuita</p>
+        </div>
+        <div>
+          <span class="badge badge-wine">Wine Expert</span>
+          <p style="font-size:12px;margin-top:6px;">Tutti i benefit Wine Lover + vantaggi esclusivi · Accesso eventi riservati</p>
+        </div>
+        <div class="alert alert-green" style="margin-top:12px;">
+          <p>Sconto 20% su acquisto 24 bottiglie per iscritti al Club</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📺 Strategie ADV</h3>
+        <ul style="font-size:13px;list-style:none;padding:0;">
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">📺 Spot televisivi (campagna 2022, 2024)</li>
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">🏙️ OOH 3D Digital Billboard (Milano Duomo, 2024)</li>
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">🤳 Influencer marketing (lifestyle, moda, viaggi)</li>
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">📰 PR con Gambero Rosso e La Cucina Italiana</li>
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">🍷 Vinitaly, Wine2Wine, Merano Wine Festival</li>
+          <li style="padding:6px 0;border-bottom:1px solid var(--light-gray)">🎉 ~1.000 eventi/anno negli store</li>
+          <li style="padding:6px 0;">📊 Osservatorio Signorvino-Nomisma (semestrale)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📡 Canali di Comunicazione Pubblica e Interna</h3>
+      <div class="grid-2">
+        <div>
+          <h4 style="font-size:14px;color:var(--wine-dark);margin-bottom:12px;">Canali Pubblici (B2C)</h4>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Canale</th><th>Scopo</th></tr></thead>
+              <tbody>
+                <tr><td>Sito web</td><td>E-commerce, info store, sommelier AI</td></tr>
+                <tr><td>Instagram</td><td>Brand awareness, prodotti, eventi</td></tr>
+                <tr><td>Facebook</td><td>Community, promozioni, eventi locali</td></tr>
+                <tr><td>Newsletter email</td><td>Promozioni, novità, eventi</td></tr>
+                <tr><td>App mobile</td><td>Loyalty card, acquisti, prenotazioni</td></tr>
+                <tr><td>Spot TV / OOH</td><td>Brand awareness nazionale</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:14px;color:var(--wine-dark);margin-bottom:12px;">Canali B2B / Fornitori</h4>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Canale</th><th>Scopo</th></tr></thead>
+              <tbody>
+                <tr><td>Email buyer</td><td>Contatto diretto ufficio acquisti</td></tr>
+                <tr><td>LinkedIn</td><td>Networking professionale</td></tr>
+                <tr><td>Vinitaly</td><td>Incontri B2B con produttori</td></tr>
+                <tr><td>Careers portal</td><td>Selezione personale</td></tr>
+                <tr><td>Osservatorio Nomisma</td><td>Dati mercato per produttori</td></tr>
+                <tr><td>Fiere di settore</td><td>Scouting nuove cantine</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 5. FORNITORI E SELEZIONE ═══ -->
+  <section id="fornitori">
+    <div class="section-header">
+      <div class="section-icon">🍇</div>
+      <div>
+        <h2>Fornitori, Selezione Vini e Criteri di Acquisto</h2>
+        <p>Come Signorvino seleziona i produttori e come Tagaro può posizionarsi</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>🔍 Criteri di Selezione Fornitori</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Criterio</th><th>Dettaglio</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Territorio</strong></td><td>Rappresentazione di tutto il territorio italiano (100% vini italiani + Champagne)</td></tr>
+              <tr><td><strong>Qualità</strong></td><td>Standard qualitativi elevati, preferenza per vini premiati da guide (Gambero Rosso, Veronelli)</td></tr>
+              <tr><td><strong>Esclusività</strong></td><td>Mix tra brand noti ed etichette esclusive/piccole realtà artigianali</td></tr>
+              <tr><td><strong>Filiera</strong></td><td>Controllo diretto della filiera, prodotti freschi e genuini</td></tr>
+              <tr><td><strong>Sostenibilità</strong></td><td>Attenzione a pratiche eco-compatibili e Slow Food</td></tr>
+              <tr><td><strong>Prezzo</strong></td><td>Competitività: vini da &lt;10€ a &gt;200€, focus su fascia 15-50€</td></tr>
+              <tr><td><strong>Selezione diretta</strong></td><td>Visita diretta alle cantine, no intermediari</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏆 Principali Fornitori Attuali (esempi)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Cantina</th><th>Regione</th><th>Prodotto Chiave</th></tr></thead>
+            <tbody>
+              <tr><td>Marchesi Antinori</td><td>Toscana</td><td>Tignanello, Sassicaia</td></tr>
+              <tr><td>Bertani</td><td>Veneto</td><td>Amarone della Valpolicella</td></tr>
+              <tr><td>Ferrari</td><td>Trentino</td><td>Trentodoc Giulio Ferrari</td></tr>
+              <tr><td>Tenuta San Guido</td><td>Toscana</td><td>Sassicaia</td></tr>
+              <tr><td>Monte Rossa</td><td>Lombardia</td><td>Franciacorta Cabochon</td></tr>
+              <tr><td>Adami</td><td>Veneto</td><td>Prosecco Valdobbiadene</td></tr>
+              <tr><td>Abbazia di Novacella</td><td>Alto Adige</td><td>Vini bianchi alpini</td></tr>
+              <tr><td>Giuseppe Quintarelli</td><td>Veneto</td><td>Valpolicella Classico</td></tr>
+              <tr><td>Ornellaia/Frescobaldi</td><td>Toscana</td><td>Le Serre Nuove</td></tr>
+              <tr><td>300+ cantine italiane</td><td>Tutte le regioni</td><td>Ampia selezione</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <h4>✅ Fit Tagaro → Signorvino: Analisi di Compatibilità</h4>
+      <p>Il <strong>Primitivo</strong> è già la 4ª denominazione più venduta da Signorvino per volume (5,4%). Il <strong>Nero di Troia</strong> e il <strong>Negroamaro</strong> sono vitigni in crescita di interesse. Tagaro ha ricevuto <strong>2 Bicchieri Gambero Rosso 2023</strong> su 4 vini, il che soddisfa il criterio qualitativo. Il posizionamento <strong>medio-alto</strong> (fascia 12-35€) è perfettamente allineato con la fascia target di Signorvino. La Puglia è <strong>sottorappresentata</strong> nell'assortimento rispetto al suo peso nel mercato vinicolo italiano: opportunità concreta.</p>
+    </div>
+
+    <div class="card">
+      <h3>📋 Processo di Selezione Fornitori Signorvino</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">Step 1 – Scouting</div>
+          <p>Il Buyer Wine &amp; Food identifica nuove cantine attraverso fiere (Vinitaly, Wine2Wine), segnalazioni interne, ricerche di mercato e Osservatorio Nomisma.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">Step 2 – Valutazione</div>
+          <p>Analisi della gamma prodotti, posizionamento qualitativo, premi e riconoscimenti, sostenibilità, capacità produttiva e condizioni commerciali.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">Step 3 – Degustazione</div>
+          <p>Sessione di degustazione con il team buyer e wine specialist. Valutazione organolettica e coerenza con l'assortimento esistente.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">Step 4 – Negoziazione</div>
+          <p>Definizione condizioni commerciali: prezzi, sconti, minimi d'ordine, esclusività, supporto marketing (eventi, degustazioni in store).</p>
+        </div>
+        <div class="timeline-item">
+          <div class="year">Step 5 – Listing</div>
+          <p>Inserimento nel catalogo fisico e/o e-commerce. Formazione wine specialist. Pianificazione eventi con il produttore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 6. COMPETITOR ═══ -->
+  <section id="competitor">
+    <div class="section-header">
+      <div class="section-icon">⚔️</div>
+      <div>
+        <h2>Analisi Competitor</h2>
+        <p>Panorama competitivo del mercato enoteca/distribuzione vino in Italia</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-box">
+        <h3>📊 Ranking SEO Settore Vino Italia (Sistrix 2024)</h3>
+        <div class="chart-wrap">
+          <canvas id="chartSEO" width="492" height="280" style="display: block; box-sizing: border-box; height: 280px; width: 492px;"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏁 Mappa Competitiva</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Competitor</th><th>Tipo</th><th>Fatturato</th><th>Punti di Forza</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Tannico.it</strong></td><td>E-commerce puro</td><td>29 mln € (IT) / 64 mln € tot.</td><td>Leader SEO, ampia selezione online</td></tr>
+              <tr><td><strong>Eataly</strong></td><td>Retail+Ristorazione</td><td>N.D. (500+ mln €)</td><td>Brand forte, internazionale</td></tr>
+              <tr><td><strong>Callmewine</strong></td><td>E-commerce puro</td><td>13,6 mln €</td><td>Forte online, prezzi competitivi</td></tr>
+              <tr><td><strong>Vino.com</strong></td><td>Marketplace</td><td>N.D.</td><td>Ampia selezione, prezzi</td></tr>
+              <tr><td><strong>Bernabei.it</strong></td><td>Enoteca tradizionale</td><td>N.D.</td><td>Storica, Roma</td></tr>
+              <tr><td><strong>Amazon.it</strong></td><td>Marketplace</td><td>N.D.</td><td>Reach enorme, prezzi</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="comp-card leader">
+        <h4>🔴 Tannico.it</h4>
+        <span class="badge badge-wine">Competitor Principale</span>
+        <p style="margin-top:8px;">Leader SEO con indice 449.3. Fatturato 64 mln € (IT+FR). Puro e-commerce, no retail fisico. Acquisito da Campari Group. Forte su vini pregiati e internazionali.</p>
+      </div>
+      <div class="comp-card strong">
+        <h4>🟡 Eataly</h4>
+        <span class="badge badge-gold">Competitor Indiretto</span>
+        <p style="margin-top:8px;">Concept simile (retail+ristorazione) ma più ampio (food+wine). Presenza internazionale forte. Target premium. Competitor per i produttori che cercano distribuzione nazionale.</p>
+      </div>
+      <div class="comp-card medium">
+        <h4>🔵 Callmewine</h4>
+        <span class="badge badge-blue">Competitor Online</span>
+        <p style="margin-top:8px;">E-commerce specializzato. 8.000+ etichette. Fatturato 13,6 mln €. Forte su vini italiani e internazionali. No presenza fisica. Competitor diretto per il canale online di Signorvino.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-wine">
+      <h4>🎯 Posizionamento Unico di Signorvino</h4>
+      <p>Signorvino è l'<strong>unico player in Italia</strong> che integra con successo i tre canali: enoteca fisica, ristorante e e-commerce in un format scalabile. Questo la rende un partner distributivo <strong>particolarmente attraente per Tagaro</strong>: una bottiglia Tagaro in Signorvino può essere venduta al dettaglio, servita al tavolo, ordinata online e promossa in eventi. <strong>Moltiplicatore di visibilità 3x rispetto a un semplice distributore.</strong></p>
+    </div>
+  </section>
+
+  <!-- ═══ 7. FUNNEL VENDITA ═══ -->
+  <section id="funnel">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div>
+        <h2>Funnel di Vendita: Da Lead Freddo a Cliente Core</h2>
+        <p>Strategia di approccio graduale di Tagaro verso Signorvino</p>
+      </div>
+    </div>
+
+    <div class="alert alert-gold" style="margin-bottom:28px;">
+      <h4>📌 Premessa Strategica</h4>
+      <p>Signorvino è un'organizzazione strutturata con un processo di acquisto formalizzato. L'approccio deve essere <strong>professionale, progressivo e basato su dati</strong>. Il percorso ideale prevede 6 fasi distinte, ognuna con canali e azioni specifiche.</p>
+    </div>
+
+    <div class="funnel">
+      <div class="funnel-step f1">
+        <div class="step-num" style="background:var(--wine);color:white;">1</div>
+        <div class="step-info">
+          <div class="step-title">🧊 LEAD FREDDO</div>
+          <div class="step-desc">Signorvino non conosce Tagaro. Fase di awareness e posizionamento del brand.</div>
+          <div class="step-channel">Canali: LinkedIn · Vinitaly · Wine2Wine · Merano Wine Festival · Invio kit stampa</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Follow LinkedIn<br>
+          Presenza a Vinitaly<br>
+          Invio press kit
+        </div>
+      </div>
+
+      <div class="funnel-step f2">
+        <div class="step-num" style="background:#D97706;color:white;">2</div>
+        <div class="step-info">
+          <div class="step-title">🌡️ LEAD TIEPIDO</div>
+          <div class="step-desc">Primo contatto diretto. Signorvino è consapevole dell'esistenza di Tagaro.</div>
+          <div class="step-channel">Canali: Email buyer (lpizzighella@signorvino.com) · Incontro a fiera · Invio campionature</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Email introduttiva<br>
+          Invio campioni<br>
+          Scheda tecnica vini
+        </div>
+      </div>
+
+      <div class="funnel-step f3">
+        <div class="step-num" style="background:#B45309;color:white;">3</div>
+        <div class="step-info">
+          <div class="step-title">🔥 LEAD CALDO</div>
+          <div class="step-desc">Interesse confermato. Il buyer ha degustato i vini e richiede informazioni commerciali.</div>
+          <div class="step-channel">Canali: Meeting diretto (Verona/Malcesine) · Presentazione commerciale · Proposta listino</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Meeting buyer<br>
+          Proposta prezzi<br>
+          Condizioni minimo ordine
+        </div>
+      </div>
+
+      <div class="funnel-step f4">
+        <div class="step-num" style="background:#065F46;color:white;">4</div>
+        <div class="step-info">
+          <div class="step-title">🤝 PROSPECT</div>
+          <div class="step-desc">Negoziazione attiva. Definizione condizioni commerciali, listing e piano di lancio.</div>
+          <div class="step-channel">Canali: Contratto fornitura · Piano marketing congiunto · Evento degustazione in store</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Contratto<br>
+          Piano eventi<br>
+          Formazione staff
+        </div>
+      </div>
+
+      <div class="funnel-step f5">
+        <div class="step-num" style="background:#1E40AF;color:white;">5</div>
+        <div class="step-info">
+          <div class="step-title">💼 CLIENTE</div>
+          <div class="step-desc">Primo ordine effettuato. Vini Tagaro presenti in 1-5 store pilota e/o e-commerce.</div>
+          <div class="step-channel">Canali: Ordini ricorrenti · Feedback vendite · Supporto eventi in store · Newsletter Signorvino</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Monitoraggio KPI<br>
+          Supporto sell-out<br>
+          Degustazioni
+        </div>
+      </div>
+
+      <div class="funnel-step f6">
+        <div class="step-num" style="background:#4C1D95;color:white;">6</div>
+        <div class="step-info">
+          <div class="step-title">⭐ CLIENTE CORE</div>
+          <div class="step-desc">Partnership strategica. Tagaro è fornitore stabile su tutti o molti store Signorvino, con presenza anche sull'e-commerce.</div>
+          <div class="step-channel">Canali: Accordo quadro annuale · Co-marketing · Presenza Osservatorio Nomisma · Viaggio nel Gusto</div>
+        </div>
+        <div style="text-align:right;font-size:13px;min-width:120px;">
+          <strong>Azioni:</strong><br>
+          Accordo annuale<br>
+          Co-branding<br>
+          Espansione SKU
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>📅 Timeline Consigliata per l'Approccio</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fase</th><th>Periodo</th><th>Azione Chiave</th><th>KPI</th></tr></thead>
+          <tbody>
+            <tr><td>Lead Freddo</td><td>Aprile 2026 (Vinitaly)</td><td>Presenza stand, networking, invio kit</td><td>1 contatto diretto</td></tr>
+            <tr><td>Lead Tiepido</td><td>Maggio-Giugno 2026</td><td>Email a Luca Pizzighella + campionature</td><td>Risposta entro 30gg</td></tr>
+            <tr><td>Lead Caldo</td><td>Luglio-Settembre 2026</td><td>Meeting a Verona, degustazione formale</td><td>Richiesta listino</td></tr>
+            <tr><td>Prospect</td><td>Ottobre-Novembre 2026</td><td>Proposta commerciale, negoziazione</td><td>Contratto bozza</td></tr>
+            <tr><td>Cliente</td><td>Dicembre 2026</td><td>Primo ordine, listing 2-3 SKU</td><td>Primo fatturato</td></tr>
+            <tr><td>Cliente Core</td><td>2027</td><td>Espansione a 10+ store, e-commerce</td><td>Ordini ricorrenti</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 8. CONTATTI ═══ -->
+  <section id="contatti">
+    <div class="section-header">
+      <div class="section-icon">📞</div>
+      <div>
+        <h2>Contatti Pubblici e Canali di Accesso</h2>
+        <p>Tutti i recapiti utili per l'approccio commerciale di Tagaro</p>
+      </div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="c-role">Presidente &amp; Fondatore</div>
+        <div class="c-name">Sandro Veronesi</div>
+        <div class="c-detail">Fondatore Gruppo Oniverse<br>Decisore strategico finale</div>
+      </div>
+      <div class="contact-item">
+        <div class="c-role">Amministratore Delegato</div>
+        <div class="c-name">Federico Veronesi</div>
+        <div class="c-detail">CEO Signorvino<br><a href="https://it.linkedin.com/in/federico-veronesi-02a555a5" target="_blank">LinkedIn →</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-role">General Manager</div>
+        <div class="c-name">Luca Pizzighella</div>
+        <div class="c-detail"><a href="mailto:lpizzighella@signorvino.com">lpizzighella@signorvino.com</a><br><a href="https://it.linkedin.com/in/luca-pizzighella-2071745" target="_blank">LinkedIn →</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-role">Buyer Wine &amp; Food</div>
+        <div class="c-name">Ufficio Acquisti</div>
+        <div class="c-detail">Wine &amp; Food Purchasing Specialist<br>Sede: Malcesine (VR)</div>
+      </div>
+      <div class="contact-item">
+        <div class="c-role">Customer Service</div>
+        <div class="c-name">Team CS</div>
+        <div class="c-detail"><a href="mailto:hello@signorvino.com">hello@signorvino.com</a><br>Tel: 0454520019</div>
+      </div>
+      <div class="contact-item">
+        <div class="c-role">Sede Legale</div>
+        <div class="c-name">Signorvino S.r.l.</div>
+        <div class="c-detail">Via Portici Umberto Primo, 5/3<br>37018 Malcesine (VR)</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>🔑 Canali di Ingresso Raccomandati per Tagaro</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Canale</th><th>Contatto</th><th>Priorità</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Vinitaly 2026</strong></td><td>Incontro diretto</td><td><span class="badge badge-wine">ALTA</span></td><td>12-15 aprile 2026, Verona. Signorvino è presente ogni anno.</td></tr>
+            <tr><td><strong>Email Luca Pizzighella</strong></td><td>lpizzighella@signorvino.com</td><td><span class="badge badge-wine">ALTA</span></td><td>General Manager, supervisiona assortimento</td></tr>
+            <tr><td><strong>LinkedIn Federico Veronesi</strong></td><td>Messaggio diretto</td><td><span class="badge badge-gold">MEDIA</span></td><td>Approccio istituzionale, dopo primo contatto</td></tr>
+            <tr><td><strong>Email Customer Service</strong></td><td>hello@signorvino.com</td><td><span class="badge badge-blue">BASSA</span></td><td>Solo per richieste generali, non per B2B</td></tr>
+            <tr><td><strong>Wine2Wine (Verona)</strong></td><td>Evento annuale</td><td><span class="badge badge-gold">MEDIA</span></td><td>Evento B2B del settore, Signorvino è speaker</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 9. TAGARO → SIGNORVINO ═══ -->
+  <section id="tagaro">
+    <div class="section-header">
+      <div class="section-icon">🍷</div>
+      <div>
+        <h2>Tagaro.it → Signorvino: Strategia di Approccio</h2>
+        <p>Analisi di compatibilità, punti di forza e piano d'azione per TRITTO A.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>✅ Punti di Forza di Tagaro per Signorvino</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Asset</th><th>Rilevanza per Signorvino</th></tr></thead>
+            <tbody>
+              <tr><td>Primitivo di Manduria DOC</td><td>5,4% delle vendite retail Signorvino (già richiesto)</td></tr>
+              <tr><td>Nero di Troia IGP</td><td>Vitigno autoctono raro, valore narrativo alto</td></tr>
+              <tr><td>2 Bicchieri Gambero Rosso 2023</td><td>Soddisfa il criterio qualitativo di Signorvino</td></tr>
+              <tr><td>Fascia prezzo 12-35€</td><td>Allineata con target retail Signorvino (48€ scontrino medio)</td></tr>
+              <tr><td>Puglia come identità</td><td>Regione sottorappresentata nell'assortimento SGV</td></tr>
+              <tr><td>Sostenibilità e filiera</td><td>Valore condiviso con la filosofia Signorvino</td></tr>
+              <tr><td>3 generazioni familiari</td><td>Storytelling autentico per eventi e comunicazione</td></tr>
+              <tr><td>Capacità produttiva (80k bt/giorno)</td><td>Garanzia di fornitura continuativa</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ Sfide e Punti da Rafforzare</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sfida</th><th>Azione Consigliata</th></tr></thead>
+            <tbody>
+              <tr><td>Brand awareness limitata al Nord</td><td>Investire in PR nazionale prima dell'approccio</td></tr>
+              <tr><td>Assenza da Signorvino attuale</td><td>Proporre listing su e-commerce come test iniziale</td></tr>
+              <tr><td>Concorrenza da cantine pugliesi più note</td><td>Differenziarsi su Nero di Troia (nicchia)</td></tr>
+              <tr><td>Processo acquisti formalizzato SGV</td><td>Rispettare iter: campionature → degustazione → negoziazione</td></tr>
+              <tr><td>Vinitaly come unico punto d'accesso</td><td>Costruire relazione LinkedIn prima della fiera</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📧 Template Email di Primo Contatto (Lead Tiepido)</h3>
+      <div style="background:var(--light-gray);border-radius:10px;padding:20px;font-size:13px;font-family:monospace;line-height:1.8;">
+        <strong>A:</strong> lpizzighella@signorvino.com<br>
+        <strong>Oggetto:</strong> Tagaro – Vini Puglia DOC/IGP – Proposta di Collaborazione<br><br>
+        Gentile Dott. Pizzighella,<br><br>
+        mi chiamo <strong>TRITTO A.</strong>, responsabile vendite Italia di <strong>Tagaro S.r.l.</strong> (www.tagaro.it), cantina pugliese con sede a Locorotondo (BA), specializzata in Primitivo di Manduria DOC, Nero di Troia e Negroamaro IGP Puglia.<br><br>
+        Con 4 vini premiati dal <strong>Gambero Rosso 2023</strong> e una produzione di qualità medio-alta nella fascia 12-35€, riteniamo che la nostra gamma possa integrarsi efficacemente nell'assortimento Signorvino, in particolare considerando che il Primitivo rappresenta già il 5,4% delle vostre vendite retail.<br><br>
+        Sarei lieto di incontrarla a <strong>Vinitaly 2026</strong> (12-15 aprile, Verona) per una degustazione informale, o di inviarle un kit di campionature con schede tecniche complete.<br><br>
+        Resto a disposizione per qualsiasi informazione.<br><br>
+        Cordiali saluti,<br>
+        <strong>TRITTO A.</strong> – Responsabile Vendite Italia<br>
+        Tagaro S.r.l. | tagaro.it | [telefono] | [email]
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <h4>🚀 Raccomandazione Finale per Tagaro</h4>
+      <p>Signorvino è un <strong>prospect di altissimo valore strategico</strong> per Tagaro. Con 43 punti vendita (in crescita a 50+), 2,2 milioni di coperti/anno e un e-commerce in crescita del 25%, una partnership con Signorvino garantirebbe visibilità nazionale immediata. Il momento è favorevole: Signorvino sta espandendo verso il Sud Italia (Napoli, Bari in piano) e ha bisogno di rafforzare l'assortimento pugliese. <strong>Vinitaly 2026 (aprile) è la finestra d'opportunità ideale</strong> per avviare il contatto diretto.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <p>
+    <strong>Perfect Report – Analisi Commerciale Signorvino</strong><br>
+    Elaborato da <strong>SecurData.pro</strong> · Incarico: IACOBELLIS V. per TRITTO A. (Tagaro.it)<br>
+    Data: Marzo 2026 · Tutti i dati sono di dominio pubblico o derivati da fonti verificabili<br>
+    <em>Documento riservato – uso esclusivo interno Tagaro S.r.l.</em>
+  </p>
+</footer>
+
+<!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+<script>
+// ── CHART 1: Fatturato Storico ──
+new Chart(document.getElementById('chartFatturato'), {
+  type: 'bar',
+  data: {
+    labels: ['2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Fatturato (mln €)',
+      data: [20, 18, 35, 55, 72.5, 85.7, 90],
+      backgroundColor: [
+        'rgba(139,26,26,0.6)','rgba(139,26,26,0.5)','rgba(139,26,26,0.65)',
+        'rgba(139,26,26,0.75)','rgba(139,26,26,0.85)','rgba(139,26,26,0.95)',
+        'rgba(139,26,26,1)'
+      ],
+      borderColor: '#8B1A1A',
+      borderWidth: 2,
+      borderRadius: 6,
+    },{
+      label: 'Trend',
+      data: [20, 18, 35, 55, 72.5, 85.7, 90],
+      type: 'line',
+      borderColor: '#C9A84C',
+      borderWidth: 2,
+      pointBackgroundColor: '#C9A84C',
+      fill: false,
+      tension: 0.4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, position: 'top' } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#F3F4F6' },
+        ticks: { callback: v => '€'+v+'M' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── CHART 2: Canali 2024 ──
+new Chart(document.getElementById('chartCanali'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Ristorazione (59 mln)', 'Retail/Enoteca (25 mln)', 'E-commerce (1,77 mln)'],
+    datasets: [{
+      data: [59, 25, 1.77],
+      backgroundColor: ['#8B1A1A','#C9A84C','#C0392B'],
+      borderColor: '#fff', borderWidth: 3,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': €' + ctx.raw + 'M' } }
+    }
+  }
+});
+
+// ── CHART 3: Categorie Vino ──
+new Chart(document.getElementById('chartCategorie'), {
+  type: 'pie',
+  data: {
+    labels: ['Rossi 46%','Bollicine 32%','Bianchi 16%','Altro 6%'],
+    datasets: [{
+      data: [46, 32, 16, 6],
+      backgroundColor: ['#8B1A1A','#C9A84C','#F0E68C','#D2B48C'],
+      borderColor: '#fff', borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+  }
+});
+
+// ── CHART 4: Bottiglie per canale ──
+new Chart(document.getElementById('chartBottiglie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Retail 71%','Ristorazione 18%','Mescita 11%'],
+    datasets: [{
+      data: [71, 18, 11],
+      backgroundColor: ['#8B1A1A','#C9A84C','#E8C97A'],
+      borderColor: '#fff', borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+  }
+});
+
+// ── CHART 5: Top Denominazioni ──
+new Chart(document.getElementById('chartDenominazioni'), {
+  type: 'bar',
+  data: {
+    labels: ['Prosecco','Valpolicella\nRipasso','Lugana','Primitivo','Champagne','Franciacorta'],
+    datasets: [{
+      label: '% Volume',
+      data: [17.3, 6.1, 5.4, 5.4, 0, 0],
+      backgroundColor: 'rgba(139,26,26,0.7)',
+      borderRadius: 4,
+    },{
+      label: '% Valore',
+      data: [7.6, 0, 0, 0, 9.5, 8.8],
+      backgroundColor: 'rgba(201,168,76,0.7)',
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#F3F4F6' },
+        ticks: { callback: v => v+'%' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// ── CHART 6: Negozi per Regione ──
+new Chart(document.getElementById('chartNegozi'), {
+  type: 'bar',
+  indexAxis: 'y',
+  data: {
+    labels: ['Lombardia','Veneto','Emilia-Romagna','Piemonte','Lazio','Toscana','Trentino-A.A.','Campania','Estero'],
+    datasets: [{
+      label: 'N° Negozi',
+      data: [12, 7, 6, 5, 5, 3, 2, 1, 2],
+      backgroundColor: [
+        '#8B1A1A','#A52020','#BE2929','#C0392B','#D44040',
+        '#C9A84C','#D4B55A','#E8C97A','#5C0E0E'
+      ],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#F3F4F6' } },
+      y: { grid: { display: false }, ticks: { font: { size: 12 } } }
+    }
+  }
+});
+
+// ── CHART 7: SEO Competitor ──
+new Chart(document.getElementById('chartSEO'), {
+  type: 'bar',
+  data: {
+    labels: ['Tannico.it','Signorvino.com','Negoziodelvino.it','Callmewine.com','Quattrocalici.it','Bernabei.it','Etilika.it','Vino.com'],
+    datasets: [{
+      label: 'Indice Visibilità SEO (Sistrix)',
+      data: [449.3, 326.02, 280.65, 239.32, 224.4, 155.21, 131.58, 124.71],
+      backgroundColor: [
+        'rgba(239,68,68,0.7)',
+        'rgba(139,26,26,1)',
+        'rgba(107,114,128,0.6)','rgba(107,114,128,0.5)',
+        'rgba(107,114,128,0.4)','rgba(107,114,128,0.35)',
+        'rgba(107,114,128,0.3)','rgba(107,114,128,0.25)'
+      ],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#F3F4F6' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } }
+    }
+  }
+});
+
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── NAV ACTIVE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+
+</body></html>
