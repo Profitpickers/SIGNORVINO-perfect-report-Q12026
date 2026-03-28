@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- saved from url=(0063)https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/ -->
-<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="it"><head><meta charset="UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfect Report – Signorvino | Analisi Commerciale per Tagaro.it</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
+    html { scroll-behavior: smooth; }
     :root {
       --wine: #8B1A1A;
       --wine-light: #C0392B;
@@ -1196,7 +1196,37 @@
 
 <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
 <script>
-// ── CHART 1: Fatturato Storico ──
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── NAV ACTIVE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── CHARTS ──
+try {
 new Chart(document.getElementById('chartFatturato'), {
   type: 'bar',
   data: {
@@ -1369,35 +1399,7 @@ new Chart(document.getElementById('chartSEO'), {
     }
   }
 });
-
-// ── SCROLL ANIMATIONS ──
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// ── NAV ACTIVE ──
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('nav a');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
-  });
-  navLinks.forEach(a => {
-    a.classList.remove('active');
-    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
-  });
-});
-
-// ── SMOOTH SCROLL ──
-document.querySelectorAll('nav a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
+} catch(e) { console.error('Chart init error:', e); }
 </script>
 
 

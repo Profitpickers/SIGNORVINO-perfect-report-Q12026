@@ -1,4 +1,4 @@
-name: Fix nav links on main
+name: Apply interactive-buttons fix to main
 
 on:
   push:
@@ -12,21 +12,24 @@ jobs:
   apply-fix-to-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout repository (full history)
         uses: actions/checkout@v4
         with:
-          ref: main
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Apply nav anchor fix
+      - name: Copy fixed index.html from feature branch to main
         run: |
-          sed -i 's|href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848\.us1\.manus\.computer/#|href="#|g' index.html
+          git checkout copilot/fix-interactive-buttons-issue -- index.html
 
-      - name: Commit and push to main (if changed)
+      - name: Switch to main and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet && echo "Nothing to fix (already applied)" || \
+          git stash
+          git checkout main
+          git stash pop
+          git diff --quiet && echo "Nothing to update (already applied)" || \
             (git add index.html && \
-             git commit -m "Fix nav buttons: replace dev-server URLs with relative anchors" && \
+             git commit -m "Fix interactive nav buttons: relative anchors, JS error isolation, smooth scroll" && \
              git push origin main)
