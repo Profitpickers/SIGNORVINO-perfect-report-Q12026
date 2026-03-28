@@ -12,24 +12,21 @@ jobs:
   apply-fix-to-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (full history)
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Copy fixed index.html from feature branch to main
+      - name: Fetch fixed index.html from triggering branch
         run: |
-          git checkout copilot/fix-interactive-buttons-issue -- index.html
+          git fetch origin ${{ github.ref_name }}
+          git checkout FETCH_HEAD -- index.html
 
-      - name: Switch to main and push
+      - name: Commit and push to main (if changed)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git stash
-          git checkout main
-          git stash pop
-          git diff --quiet && echo "Nothing to update (already applied)" || \
-            (git add index.html && \
-             git commit -m "Fix interactive nav buttons: relative anchors, JS error isolation, smooth scroll" && \
+          git diff --staged --quiet && echo "Nothing to update (already applied)" || \
+            (git commit -m "Fix interactive nav buttons: relative anchors, JS error isolation, smooth scroll" && \
              git push origin main)
