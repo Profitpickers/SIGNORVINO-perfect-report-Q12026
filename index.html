@@ -1,11 +1,63 @@
 <!DOCTYPE html>
-<!-- saved from url=(0063)https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/ -->
-<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="it"><head><meta charset="UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfect Report – Signorvino | Analisi Commerciale per Tagaro.it</title>
+  <!-- ── CONTENT PROTECTION META ── -->
+  <meta name="robots" content="noindex, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, noarchive">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
+    html { scroll-behavior: smooth; }
+
+    /* ── CONTENT PROTECTION ── */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    img, canvas { pointer-events: none; -webkit-user-drag: none; user-drag: none; }
+    @media print { body { display: none !important; } }
+
+    /* ── PROTECTION MODAL ── */
+    #protect-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+    }
+    #protect-overlay.active { display: flex; }
+    #protect-box {
+      background: #fff;
+      border-top: 6px solid #8B1A1A;
+      border-radius: 12px;
+      padding: 40px 48px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      animation: popIn .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    #protect-box .icon  { font-size: 3rem; margin-bottom: 12px; }
+    #protect-box h2     { color: #8B1A1A; margin: 0 0 12px; font-size: 1.3rem; }
+    #protect-box p      { color: #444; font-size: 0.95rem; line-height: 1.5; margin: 0 0 24px; }
+    #protect-box button {
+      background: #8B1A1A; color: #fff;
+      border: none; border-radius: 8px;
+      padding: 10px 32px; font-size: 1rem; cursor: pointer;
+    }
+    #protect-box button:hover { background: #a01f1f; }
+
     :root {
       --wine: #8B1A1A;
       --wine-light: #C0392B;
@@ -348,15 +400,15 @@
 <!-- ═══════════════════ NAV ═══════════════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#profilo" class="active">Profilo</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#finanziari">Finanziari</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#negozi">Negozi</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#marketing">Marketing</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#fornitori">Fornitori</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#competitor">Competitor</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#funnel">Funnel Vendita</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#contatti">Contatti</a>
-    <a href="https://8080-ijz1oo3x3dv58jbyetsqa-c28d4848.us1.manus.computer/#tagaro">Tagaro → SGV</a>
+    <a href="#profilo" class="active">Profilo</a>
+    <a href="#finanziari">Finanziari</a>
+    <a href="#negozi">Negozi</a>
+    <a href="#marketing">Marketing</a>
+    <a href="#fornitori">Fornitori</a>
+    <a href="#competitor">Competitor</a>
+    <a href="#funnel">Funnel Vendita</a>
+    <a href="#contatti">Contatti</a>
+    <a href="#tagaro">Tagaro → SGV</a>
   </div>
 </nav>
 
@@ -1196,7 +1248,37 @@
 
 <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
 <script>
-// ── CHART 1: Fatturato Storico ──
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── NAV ACTIVE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── CHARTS ──
+try {
 new Chart(document.getElementById('chartFatturato'), {
   type: 'bar',
   data: {
@@ -1369,36 +1451,93 @@ new Chart(document.getElementById('chartSEO'), {
     }
   }
 });
-
-// ── SCROLL ANIMATIONS ──
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// ── NAV ACTIVE ──
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('nav a');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
-  });
-  navLinks.forEach(a => {
-    a.classList.remove('active');
-    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
-  });
-});
-
-// ── SMOOTH SCROLL ──
-document.querySelectorAll('nav a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
+} catch(e) { console.error('Chart init error:', e); }
 </script>
 
+<!-- ═══════════════════ CONTENT PROTECTION ═══════════════════ -->
+<!-- Modal di avviso accesso non consentito -->
+<div id="protect-overlay" role="alertdialog" aria-modal="true" aria-labelledby="protect-title">
+  <div id="protect-box">
+    <div class="icon">🔒</div>
+    <h2 id="protect-title">⛔ Azione Non Consentita</h2>
+    <p>
+      Questo documento è <strong>riservato e protetto</strong>.<br>
+      Il download, la copia, la stampa e l'acquisizione schermo sono <strong>vietati</strong>.<br><br>
+      L'accesso non autorizzato può essere registrato e segnalato alle autorità competenti
+      ai sensi del D.Lgs. 231/2001 e del GDPR (Reg. UE 2016/679).
+    </p>
+    <button onclick="document.getElementById('protect-overlay').classList.remove('active')">
+      Ho capito
+    </button>
+  </div>
+</div>
+
+<script>
+// ── CONTENT PROTECTION ──
+(function() {
+  const overlay = document.getElementById('protect-overlay');
+
+  function showAlert(reason) {
+    overlay.classList.add('active');
+    // Log attempt details (visible only in browser console to owner)
+    console.warn('[Signorvino Report] Azione bloccata:', reason,
+      '| timestamp:', new Date().toISOString(),
+      '| userAgent:', navigator.userAgent,
+      '| referrer:', document.referrer || '(diretto)',
+      '| url:', location.href
+    );
+  }
+
+  // Block right-click context menu
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    showAlert('contextmenu');
+  });
+
+  // Block text selection via mouse drag (belt-and-suspenders with CSS user-select)
+  document.addEventListener('selectstart', function(e) { e.preventDefault(); showAlert('selectstart'); });
+  document.addEventListener('dragstart',   function(e) { e.preventDefault(); showAlert('dragstart'); });
+
+  // Block copy / cut
+  document.addEventListener('copy',  function(e) { e.preventDefault(); showAlert('copy'); });
+  document.addEventListener('cut',   function(e) { e.preventDefault(); showAlert('cut'); });
+
+  // Block keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    const ctrl = e.ctrlKey || e.metaKey;
+    // Ctrl+S (save), Ctrl+A (select all), Ctrl+P (print), Ctrl+U (source)
+    // Ctrl+C and Ctrl+X already handled by copy/cut events
+    if (ctrl && ['s','a','p','u'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      showAlert('keyboard:Ctrl+' + e.key.toUpperCase());
+      return;
+    }
+    // F12 (DevTools), Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+    if (e.key === 'F12') {
+      e.preventDefault();
+      showAlert('keyboard:F12');
+      return;
+    }
+    if (ctrl && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      showAlert('keyboard:Ctrl+Shift+' + e.key.toUpperCase());
+      return;
+    }
+    // PrintScreen
+    if (e.key === 'PrintScreen') {
+      e.preventDefault();
+      showAlert('keyboard:PrintScreen');
+    }
+  });
+
+  // Block print via browser print dialog (Ctrl+P already blocked above; @media print CSS hides body)
+  window.onbeforeprint = function() { showAlert('print'); };
+
+  // Close modal when clicking the overlay background
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+})();
+</script>
 
 </body></html>
