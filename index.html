@@ -1463,7 +1463,7 @@ new Chart(document.getElementById('chartSEO'), {
     <p>
       Questo documento è <strong>riservato e protetto</strong>.<br>
       Il download, la copia, la stampa e l'acquisizione schermo sono <strong>vietati</strong>.<br><br>
-      L'accesso non autorizzato è tracciato e potrà essere segnalato alle autorità competenti
+      L'accesso non autorizzato può essere registrato e segnalato alle autorità competenti
       ai sensi del D.Lgs. 231/2001 e del GDPR (Reg. UE 2016/679).
     </p>
     <button onclick="document.getElementById('protect-overlay').classList.remove('active')">
@@ -1480,7 +1480,7 @@ new Chart(document.getElementById('chartSEO'), {
   function showAlert(reason) {
     overlay.classList.add('active');
     // Log attempt details (visible only in browser console to owner)
-    console.warn('[SecurData Protection] Azione bloccata:', reason,
+    console.warn('[Signorvino Report] Azione bloccata:', reason,
       '| timestamp:', new Date().toISOString(),
       '| userAgent:', navigator.userAgent,
       '| referrer:', document.referrer || '(diretto)',
@@ -1495,8 +1495,8 @@ new Chart(document.getElementById('chartSEO'), {
   });
 
   // Block text selection via mouse drag (belt-and-suspenders with CSS user-select)
-  document.addEventListener('selectstart', function(e) { e.preventDefault(); });
-  document.addEventListener('dragstart',   function(e) { e.preventDefault(); });
+  document.addEventListener('selectstart', function(e) { e.preventDefault(); showAlert('selectstart'); });
+  document.addEventListener('dragstart',   function(e) { e.preventDefault(); showAlert('dragstart'); });
 
   // Block copy / cut
   document.addEventListener('copy',  function(e) { e.preventDefault(); showAlert('copy'); });
@@ -1530,13 +1530,8 @@ new Chart(document.getElementById('chartSEO'), {
     }
   });
 
-  // Block print via window.print() and browser print dialog (Ctrl+P already blocked above)
-  window.onbeforeprint = function() {
-    showAlert('print');
-    // Replace content with blank to prevent anything printing
-    document.body.style.display = 'none';
-    setTimeout(function() { document.body.style.display = ''; }, 500);
-  };
+  // Block print via browser print dialog (Ctrl+P already blocked above; @media print CSS hides body)
+  window.onbeforeprint = function() { showAlert('print'); };
 
   // Close modal when clicking the overlay background
   overlay.addEventListener('click', function(e) {
